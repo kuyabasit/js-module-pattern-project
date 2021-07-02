@@ -32,15 +32,37 @@ const ItemCtrl = (function () {
 
 // UI Controller
 const UICtrl = (function () {
+  const UISelectors = {
+    itemList: "#item-list",
+  };
   // Public Methods
-  return {};
+  return {
+    populateItemsList: function (items) {
+      let html = "";
+
+      items.forEach(function (item) {
+        html += `<li class="collection-item" id="item-${item.id}">
+            <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
+            <a href="#" class="secondary-content">
+                <i class="edit-item fa fa-pencil-alt"></i>
+            </a>
+        </li>`;
+      });
+
+      document.querySelector(UISelectors.itemList).innerHTML = html;
+    },
+  };
 })();
 // App Controller
 const App = (function (ItemCtrl, UICtrl) {
   // Public methods
   return {
     init: function () {
-      console.log("Initializing App...");
+      // Fetch items from data structure
+      const items = ItemCtrl.getItems();
+
+      // Populate list with items
+      UICtrl.populateItemsList(items);
     },
   };
 })(ItemCtrl, UICtrl);
